@@ -129,3 +129,7 @@ Gerald Reimertz
 
 How it works, the format of the filter lists, how to add a site and how to
 build and test: [CONTRIBUTING.md](CONTRIBUTING.md).
+
+## License
+
+[MIT](LICENSE). Use it, change it, pass it on.

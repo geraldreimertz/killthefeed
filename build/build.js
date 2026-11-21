@@ -68,6 +68,8 @@ function copyStaticFiles() {
     cp(fromRoot('src/popup/popup.html'), toDist(POPUP_PAGE)),
     cp(fromRoot('src/popup/popup.css'), toDist(popupFolder, 'popup.css')),
     cp(fromRoot('assets/icons'), toDist('icons'), { recursive: true }),
+    // The licence asks to travel with every copy, and the zip is a copy.
+    cp(fromRoot('LICENSE'), toDist('LICENSE')),
   ]);
 }
 
