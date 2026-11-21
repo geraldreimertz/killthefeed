@@ -10,6 +10,7 @@ const fixtureFolder = fileURLToPath(new URL('../fixtures', import.meta.url));
 
 /** Which stand-in page answers for which site. No test ever reaches the real sites. */
 const STAND_INS = {
+  'www.instagram.com': 'instagram.html',
   'www.reddit.com': 'reddit.html',
   'www.linkedin.com': 'linkedin.html',
   'x.com': 'x.html',

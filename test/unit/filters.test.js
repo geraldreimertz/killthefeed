@@ -10,6 +10,19 @@ import { validateSites } from '../../src/core/filter-schema.js';
 import { rulesForPath } from '../../src/core/sites.js';
 
 const expectations = {
+  instagram: {
+    killed: ['/'],
+    untouched: [
+      '/p/Cabc123xyz/',
+      '/reel/Cabc123xyz/',
+      '/reels/Cabc123xyz/',
+      '/someone/',
+      '/someone/tagged/',
+      '/direct/inbox/',
+      '/stories/someone/3123456789/',
+      '/accounts/edit/',
+    ],
+  },
   reddit: {
     killed: ['/', '/best/', '/hot', '/new/', '/top/', '/r/popular/', '/r/popular/top/', '/r/all/', '/news/'],
     untouched: [

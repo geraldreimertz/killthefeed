@@ -47,6 +47,37 @@ const rulesInForce = (page, ruleIds) =>
     [STATE_ATTRIBUTE, ruleIds],
   );
 
+test('Instagram: stories, feed tabs and posts go, the rest of the page stays', async () => {
+  const page = await open('https://www.instagram.com/');
+  await settle(page);
+
+  assert.equal(await isShown(page, 'article'), false);
+  assert.equal(await isShown(page, '[data-pagelet="story_tray"]'), false);
+  assert.equal(await isShown(page, '[role="tablist"]'), false);
+  assert.equal(await isShown(page, '#suggestions'), true);
+  assert.equal(await noteIn(page, '[data-part="column"]'), NOTE);
+  assert.equal(await page.evaluate(() => window.pagesLoaded), 0);
+  await page.close();
+});
+
+test('Instagram: the posts go on a start page without stories, too', async () => {
+  const page = await open('https://www.instagram.com/?stories=none');
+  await settle(page);
+
+  assert.equal(await isShown(page, 'article'), false);
+  assert.equal(await noteIn(page, '[data-part="feed"]'), NOTE);
+  assert.equal(await page.evaluate(() => window.pagesLoaded), 0);
+  await page.close();
+});
+
+test('Instagram: a single post is left alone', async () => {
+  const page = await open('https://www.instagram.com/p/Cabc123xyz/');
+
+  assert.equal(await isShown(page, 'article'), true);
+  assert.equal(await isShown(page, '[data-pagelet="story_tray"]'), true);
+  await page.close();
+});
+
 test('Reddit: the home feed is replaced by a note before the page renders', async () => {
   const page = await open('https://www.reddit.com/');
 
@@ -229,15 +260,16 @@ test('Popup: lists every site and switches a single one off and on again', async
   const popup = await open(browser.popupUrl);
 
   assert.deepEqual(await popup.locator('.site__name').allTextContents(), [
+    'Instagram',
     'LinkedIn',
     'Reddit',
     'X',
     'YouTube',
   ]);
-  assert.equal(await popup.locator('#summary').textContent(), 'Feeds are hidden on 4 sites.');
+  assert.equal(await popup.locator('#summary').textContent(), 'Feeds are hidden on 5 sites.');
 
   await popup.getByRole('switch', { name: 'Reddit' }).click();
-  assert.equal(await popup.locator('#summary').textContent(), 'Feeds are hidden on 3 of 4 sites.');
+  assert.equal(await popup.locator('#summary').textContent(), 'Feeds are hidden on 4 of 5 sites.');
   await reddit.locator('article').first().waitFor({ state: 'visible' });
   assert.equal(await isShown(x, '[data-testid="tweet"]'), false, 'other sites stay as they are');
 

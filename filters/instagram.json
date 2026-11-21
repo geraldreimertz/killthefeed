@@ -1,0 +1,17 @@
+{
+  "id": "instagram",
+  "name": "Instagram",
+  "domains": ["instagram.com"],
+  "rules": [
+    {
+      "id": "feed",
+      "description": "Stories and posts on the start page. Posts, reels and profiles you open yourself, search and messages are left alone.",
+      "notes": "Instagram's class names are generated and change with every release. The one lasting hook is the stories row, data-pagelet=\"story_tray\". The first selector takes the column around it, which also holds the feed tabs and the posts. The second is the fallback for a start page without stories: the element two levels above the posts, which holds the posts and the loading marker after them.",
+      "paths": ["/"],
+      "replace": [
+        "main[role=\"main\"] div:has(> div > [data-pagelet=\"story_tray\"])",
+        "main[role=\"main\"] div:has(> div > div > article)"
+      ]
+    }
+  ]
+}

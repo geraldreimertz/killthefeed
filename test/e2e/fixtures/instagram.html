@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Instagram stand-in</title>
+    <style>
+      article {
+        height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Like the real page: no ids or lasting class names, only nesting. -->
+    <div>
+      <a href="/explore/">Explore</a>
+
+      <section>
+        <main role="main">
+          <div>
+            <div>
+              <div data-part="column">
+                <div>
+                  <div role="tablist">
+                    <div role="tab">For you</div>
+                    <div role="tab">Following</div>
+                  </div>
+                </div>
+                <div><div data-pagelet="story_tray">Stories</div></div>
+                <div>
+                  <div data-part="feed">
+                    <div>
+                      <div>
+                        <article>First post</article>
+                        <article>Second post</article>
+                      </div>
+                    </div>
+                    <div><div id="next-page" role="progressbar"></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="suggestions">Suggested for you</div>
+          </div>
+        </main>
+      </section>
+    </div>
+
+    <script>
+      // An account that follows nobody with a story has no stories row.
+      if (location.search === '?stories=none') {
+        document.querySelector('[data-pagelet="story_tray"]').parentElement.remove();
+      }
+
+      window.pagesLoaded = 0;
+      new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) window.pagesLoaded += 1;
+      }).observe(document.querySelector('#next-page'));
+    </script>
+  </body>
+</html>
