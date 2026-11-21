@@ -8,6 +8,7 @@ import { STATE_ATTRIBUTE } from '../../src/core/state-attribute.js';
 import { launchWithExtension } from './support/browser.js';
 
 const NOTE = '"Feed killed."';
+const TIMELINE = '[data-testid="primaryColumn"] section';
 
 let browser;
 
@@ -152,7 +153,7 @@ test('X: the home timeline goes, writing a post stays possible', async () => {
   assert.equal(await isShown(page, '[data-testid="tweet"]'), false);
   assert.equal(await isShown(page, '[data-testid="pillLabel"]'), false);
   assert.equal(await isShown(page, '#composer'), true);
-  assert.equal(await noteIn(page, 'section'), NOTE);
+  assert.equal(await noteIn(page, TIMELINE), NOTE);
   await page.close();
 });
 
@@ -162,6 +163,18 @@ test('X: profiles and single posts are left alone', async () => {
 
     assert.equal(await isShown(page, '[data-testid="tweet"]'), true, path);
     assert.equal(await isShown(page, '[data-testid="pillLabel"]'), true, path);
+    await page.close();
+  }
+});
+
+test('X: news and trends leave the side column on every page', async () => {
+  for (const path of ['/home', '/someone/status/1234567890']) {
+    const page = await open(`https://x.com${path}`);
+
+    assert.equal(await isShown(page, '#news'), false, path);
+    assert.equal(await isShown(page, '#happening'), false, path);
+    assert.equal(await isShown(page, '#search'), true, path);
+    assert.equal(await isShown(page, '#who-to-follow'), true, path);
     await page.close();
   }
 });
@@ -197,7 +210,7 @@ test('X: the timeline stays hidden until the app has swapped it for the next pag
 
   await swapped;
   assert.equal(await isShown(page, '[data-screen="notifications"] article'), true);
-  assert.equal(await noteIn(page, 'section'), 'none');
+  assert.equal(await noteIn(page, TIMELINE), 'none');
   await page.close();
 });
 
@@ -207,7 +220,7 @@ test('X: a timeline refilled in place for another page is shown', async () => {
   await page.evaluate(() => window.app.refill('/someone', 'someone'));
 
   await page.locator('[data-screen="someone"] article').waitFor({ state: 'visible' });
-  assert.equal(await noteIn(page, 'section'), 'none');
+  assert.equal(await noteIn(page, TIMELINE), 'none');
   await page.close();
 });
 

@@ -12,6 +12,33 @@
   <body>
     <main role="main">
       <div data-testid="primaryColumn"></div>
+
+      <!-- Like the real side column: a list of cards. -->
+      <div data-testid="sidebarColumn">
+        <div aria-label="Trending">
+          <div>
+            <div id="search"><input placeholder="Search" /></div>
+            <div id="news">
+              <div data-testid="news_sidebar"></div>
+              <div>
+                <h2>Today's News</h2>
+                <div role="link" data-testid="news_sidebar_article_1">A headline</div>
+              </div>
+            </div>
+            <div id="happening">
+              <section role="region">
+                <h1>Trending now</h1>
+                <div aria-label="Timeline: Trending now">
+                  <div data-testid="trend">#SomeTrend</div>
+                </div>
+              </section>
+            </div>
+            <div id="who-to-follow">
+              <aside role="complementary" aria-label="Who to follow">Someone</aside>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
 
     <script>

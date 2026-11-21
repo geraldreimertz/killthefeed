@@ -13,6 +13,16 @@
         "[id^=\"urt:home:\"]"
       ],
       "hide": ["[data-testid=\"primaryColumn\"] [role=\"status\"]:has([data-testid=\"pillLabel\"])"]
+    },
+    {
+      "id": "trends",
+      "description": "\"Today's News\" and \"What's happening\" in the side column, on every page. The search box and \"Who to follow\" stay.",
+      "notes": "Classic web client only. The side column is a list of cards; each selector takes the whole card, so no empty frame is left behind.",
+      "paths": ["/**"],
+      "hide": [
+        "[data-testid=\"sidebarColumn\"] div:has(> [data-testid=\"news_sidebar\"])",
+        "[data-testid=\"sidebarColumn\"] div:has(> section[role=\"region\"])"
+      ]
     }
   ]
 }

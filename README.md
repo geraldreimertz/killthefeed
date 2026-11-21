@@ -9,7 +9,7 @@ your messages and write. You just can't fall into the scroll.
 | Instagram | Stories and posts on the start page                   | Single posts and reels, profiles, search, messages           |
 | LinkedIn  | The feed on the start page                            | Writing a post, single posts, profiles, search, messages     |
 | Reddit    | Home, Popular, All, News                              | Communities, single posts, search, profiles                  |
-| X         | Home timeline (For you, Following), Explore           | Writing a post, single posts, profiles, search, messages     |
+| X         | Home timeline, Explore, news and trends at the side   | Writing a post, single posts, profiles, search, messages     |
 | YouTube   | Recommendations on the start page and next to a video | The video itself, subscriptions, channels, search, playlists |
 
 The rule of thumb: a feed is a stream that greets you without being asked.
