@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>YouTube stand-in</title>
+    <style>
+      ytd-browse,
+      ytd-watch-flexy,
+      ytd-rich-grid-renderer,
+      ytd-rich-item-renderer,
+      ytd-watch-next-secondary-results-renderer,
+      .suggestion {
+        display: block;
+      }
+
+      [hidden] {
+        display: none;
+      }
+
+      ytd-rich-item-renderer,
+      .suggestion {
+        height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <ytd-app>
+      <ytd-page-manager id="page-manager">
+        <ytd-browse page-subtype="home" role="main">
+          <ytd-rich-grid-renderer>
+            <div id="header">All | Music | Live</div>
+            <div id="contents">
+              <ytd-rich-item-renderer>First video</ytd-rich-item-renderer>
+              <ytd-rich-item-renderer>Second video</ytd-rich-item-renderer>
+              <ytd-continuation-item-renderer id="next-page"></ytd-continuation-item-renderer>
+            </div>
+          </ytd-rich-grid-renderer>
+        </ytd-browse>
+
+        <ytd-watch-flexy hidden>
+          <div id="player">The video</div>
+          <div id="related">
+            <ytd-watch-next-secondary-results-renderer>
+              <div id="items"><a class="suggestion" href="/watch?v=next">Suggested video</a></div>
+            </ytd-watch-next-secondary-results-renderer>
+            <!-- Like the real page: a loading skeleton that reuses the id of the list. -->
+            <div id="related-skeleton"><div id="related">Loading</div></div>
+          </div>
+        </ytd-watch-flexy>
+      </ytd-page-manager>
+    </ytd-app>
+
+    <script>
+      // Like the real app: every kind of page stays in the document and is
+      // hidden while another one is shown.
+      const browse = document.querySelector('ytd-browse');
+      const watch = document.querySelector('ytd-watch-flexy');
+
+      function show(path) {
+        const watching = path.startsWith('/watch');
+        watch.hidden = !watching;
+        browse.hidden = watching;
+        if (!watching) browse.setAttribute('page-subtype', path === '/' ? 'home' : 'subscriptions');
+      }
+
+      window.app = {
+        go(path) {
+          history.pushState({}, '', path);
+          show(path);
+        },
+      };
+
+      window.addEventListener('popstate', () => show(location.pathname));
+      show(location.pathname);
+
+      window.pagesLoaded = 0;
+      new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) window.pagesLoaded += 1;
+      }).observe(document.querySelector('#next-page'));
+    </script>
+  </body>
+</html>

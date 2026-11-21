@@ -1,0 +1,21 @@
+{
+  "name": "kill-the-feed",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hides the endless feeds on social sites. Posts, search and everything you open on purpose keep working.",
+  "type": "module",
+  "scripts": {
+    "build": "node --disable-warning=ExperimentalWarning build/build.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch-path=src --watch-path=filters build/build.js",
+    "icons": "node build/icons.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/unit/*.test.js",
+    "test:e2e": "npm run build && node --disable-warning=ExperimentalWarning --test test/e2e/*.test.js"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "playwright": "1.61.0"
+  },
+  "engines": {
+    "node": ">=20.11"
+  }
+}

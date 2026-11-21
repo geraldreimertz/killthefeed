@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>X stand-in</title>
+    <style>
+      article {
+        height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <main role="main">
+      <div data-testid="primaryColumn"></div>
+    </main>
+
+    <script>
+      // A small single-page app in the shape of X's classic web client.
+      const column = document.querySelector('[data-testid="primaryColumn"]');
+
+      const timeline = (name) => `
+        <div role="status"><button><div data-testid="pillLabel">New posts</div></button></div>
+        <div id="composer">What is happening?!</div>
+        <section role="region" data-screen="${name}">
+          <h1>${name}</h1>
+          <div aria-label="Timeline: ${name}">
+            <article data-testid="tweet">First post on ${name}</article>
+            <article data-testid="tweet">Second post on ${name}</article>
+          </div>
+        </section>`;
+
+      const show = (name) => (column.innerHTML = timeline(name));
+
+      window.app = {
+        /** Changes the address at once and the content `delay` milliseconds later. */
+        go(path, name, delay = 0) {
+          history.pushState({}, '', path);
+          return new Promise((done) =>
+            setTimeout(() => {
+              show(name);
+              done();
+            }, delay),
+          );
+        },
+
+        /** Moves on by refilling the timeline that is already there, as apps do to save work. */
+        refill(path, name) {
+          history.pushState({}, '', path);
+          const section = column.querySelector('section');
+          section.dataset.screen = name;
+          section.innerHTML = `<h1>${name}</h1><article data-testid="tweet">A post on ${name}</article>`;
+        },
+
+        /** Opens a dialog with an address of its own. The page underneath stays as it is. */
+        openDialog(path) {
+          history.pushState({}, '', path);
+          document.body.insertAdjacentHTML('beforeend', '<div role="dialog" id="dialog">Post</div>');
+        },
+
+        closeDialog() {
+          document.querySelector('#dialog').remove();
+          history.back();
+        },
+      };
+
+      show(location.pathname.slice(1));
+    </script>
+  </body>
+</html>

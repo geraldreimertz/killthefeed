@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Reddit stand-in</title>
+    <script>
+      // What the extension had already decided when the page's first script ran.
+      window.stateAtStart = document.documentElement.getAttribute('data-kill-the-feed');
+    </script>
+    <style>
+      article {
+        height: 600px;
+      }
+
+      /* Like the real site: posts declare themselves visible, whatever their parents say. */
+      article a {
+        visibility: visible;
+      }
+    </style>
+  </head>
+  <body>
+    <a id="search" href="/search/">Search</a>
+
+    <main id="main-content">
+      <div id="interest-feed-header">For you | Following</div>
+
+      <!-- Like the real element: a shadow root that slots the posts. -->
+      <shreddit-feed>
+        <template shadowrootmode="open">
+          <h1 hidden>Feed</h1>
+          <slot></slot>
+          <slot name="load-after"></slot>
+        </template>
+        <article><a href="/r/one/comments/1/first/">First post</a></article>
+        <article><a href="/r/two/comments/2/second/">Second post</a></article>
+        <article><a href="/r/three/comments/3/third/">Third post</a></article>
+        <div id="next-page" slot="load-after"></div>
+      </shreddit-feed>
+    </main>
+
+    <a id="policies" href="/policies/">Policies</a>
+
+    <script>
+      // The feed loads its next page when the marker at its end comes into view.
+      window.pagesLoaded = 0;
+      new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) window.pagesLoaded += 1;
+      }).observe(document.querySelector('#next-page'));
+    </script>
+  </body>
+</html>

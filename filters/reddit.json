@@ -1,0 +1,26 @@
+{
+  "id": "reddit",
+  "name": "Reddit",
+  "domains": ["reddit.com"],
+  "rules": [
+    {
+      "id": "feed",
+      "description": "Home, Popular, All and News. Communities, search and single posts are left alone.",
+      "notes": "shreddit-feed is the feed element of www.reddit.com, #siteTable the post list of old.reddit.com. #interest-feed-header holds the feed tabs and the view switch above the home feed.",
+      "paths": [
+        "/",
+        "/best",
+        "/hot",
+        "/new",
+        "/top",
+        "/rising",
+        "/controversial",
+        "/r/popular/**",
+        "/r/all/**",
+        "/news/**"
+      ],
+      "replace": ["shreddit-feed", "#siteTable"],
+      "hide": ["#interest-feed-header"]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "id": "x",
+  "name": "X",
+  "domains": ["x.com"],
+  "rules": [
+    {
+      "id": "timeline",
+      "description": "The home timeline (For you, Following) and Explore. Writing a post still works; profiles, search, notifications and single posts are left alone.",
+      "notes": "X serves two web clients. The first replace selector and the hide selector (the 'new posts' pill) belong to the classic one. The second replace selector belongs to the rewritten client, whose home timelines carry ids such as urt:home:for-you.",
+      "paths": ["/home", "/explore/**"],
+      "replace": [
+        "[data-testid=\"primaryColumn\"] section[role=\"region\"]",
+        "[id^=\"urt:home:\"]"
+      ],
+      "hide": ["[data-testid=\"primaryColumn\"] [role=\"status\"]:has([data-testid=\"pillLabel\"])"]
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>LinkedIn stand-in</title>
+    <style>
+      .post {
+        height: 600px;
+      }
+    </style>
+  </head>
+  <body>
+    <main id="workspace">
+      <!--
+        Like the real list: the box for starting a post is its first entry, and
+        every entry sits in a wrapper that has no box of its own.
+      -->
+      <div role="list" data-testid="mainFeed">
+        <div style="display: contents">
+          <div role="listitem" id="composer">
+            <div id="shareboxProfilePictureComponentRef"></div>
+            <div role="button">Start a post</div>
+          </div>
+        </div>
+        <div style="display: contents"></div>
+        <div style="display: contents"><div role="listitem" id="sort">Sort by: Top</div></div>
+        <div style="display: contents"><div role="listitem" class="post">First post</div></div>
+        <div style="display: contents"><div role="listitem" class="post">Second post</div></div>
+        <div id="next-page"></div>
+      </div>
+    </main>
+
+    <script>
+      window.pagesLoaded = 0;
+      new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) window.pagesLoaded += 1;
+      }).observe(document.querySelector('#next-page'));
+    </script>
+  </body>
+</html>

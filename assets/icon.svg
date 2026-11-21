@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <!-- Three lines of a feed, struck through. -->
+  <rect width="128" height="128" rx="28" fill="#000" />
+  <g fill="#fff">
+    <rect x="26" y="30" width="76" height="16" rx="4" />
+    <rect x="26" y="56" width="76" height="16" rx="4" />
+    <rect x="26" y="82" width="50" height="16" rx="4" />
+  </g>
+  <path d="M20 108 108 20" stroke="#000" stroke-width="30" />
+  <path d="M24 104 104 24" stroke="#fff" stroke-width="12" stroke-linecap="round" />
+</svg>

@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Kill the Feed</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <h1 class="wordmark">Kill the <span class="wordmark__feed">Feed</span></h1>
+      <input class="switch" id="master" type="checkbox" role="switch" aria-label="Hide feeds" />
+      <p class="summary" id="summary" aria-live="polite"></p>
+    </header>
+
+    <ul class="sites" id="sites"></ul>
+
+    <p class="footnote">Posts, search and messages keep working.</p>
+
+    <template id="site-row">
+      <li>
+        <label class="site">
+          <span>
+            <span class="site__name"></span>
+            <span class="site__state"></span>
+          </span>
+          <input class="switch" type="checkbox" role="switch" />
+        </label>
+      </li>
+    </template>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "id": "linkedin",
+  "name": "LinkedIn",
+  "domains": ["linkedin.com"],
+  "rules": [
+    {
+      "id": "feed",
+      "description": "The feed on the start page. Writing a post still works; profiles, search, messages and single posts are left alone.",
+      "notes": "The feed list also contains the box for starting a post as its first entry, which is why that entry is kept.",
+      "paths": ["/", "/feed"],
+      "replace": ["[data-testid=\"mainFeed\"]"],
+      "keep": [":has(#shareboxProfilePictureComponentRef)"]
+    }
+  ]
+}
