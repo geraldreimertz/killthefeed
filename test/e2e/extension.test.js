@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { after, before, test } from 'node:test';
 
 import { STATE_ATTRIBUTE } from '../../src/core/state-attribute.js';
-import { launchWithExtension } from './support/browser.js';
+import { launchWithStandIns } from './support/browser.js';
 
 const NOTE = '"Feed killed."';
 const TIMELINE = '[data-testid="primaryColumn"] section';
@@ -13,7 +13,7 @@ const TIMELINE = '[data-testid="primaryColumn"] section';
 let browser;
 
 before(async () => {
-  browser = await launchWithExtension();
+  browser = await launchWithStandIns();
 });
 
 after(async () => {
@@ -311,4 +311,12 @@ test('Popup: the main switch pauses everything and remembers it', async () => {
   await x.locator('[data-testid="tweet"]').first().waitFor({ state: 'hidden' });
 
   await Promise.all([x.close(), later.close(), popup.close()]);
+});
+
+// Keep this test last: it looks back at everything the tests above did.
+test('Privacy: the extension sends nothing to the web', async () => {
+  const sent = browser.webRequests.filter((request) => request.type !== 'document');
+
+  assert.ok(browser.webRequests.length > 0, 'the tests opened pages');
+  assert.deepEqual(sent, [], 'only the pages the tests opened themselves were requested');
 });

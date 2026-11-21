@@ -1,11 +1,9 @@
-import { createHash } from 'node:crypto';
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
-import { tmpdir } from 'node:os';
+import { readFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { chromium } from 'playwright';
 
-const extensionFolder = fileURLToPath(new URL('../../../dist', import.meta.url));
+import { launchWithExtension } from '../../../build/extension-browser.js';
+
 const fixtureFolder = fileURLToPath(new URL('../fixtures', import.meta.url));
 
 /** Which stand-in page answers for which site. No test ever reaches the real sites. */
@@ -18,20 +16,23 @@ const STAND_INS = {
 };
 
 /**
- * Starts a browser with the built extension installed.
+ * Starts a browser with the built extension installed, in which the supported
+ * sites are played by stand-in pages.
  *
- * @returns {Promise<{ context: import('playwright').BrowserContext, popupUrl: string, close: () => Promise<void> }>}
+ * `webRequests` lists every request the browser tried to send to the web
+ * while the tests ran, whoever asked for it.
  */
-export async function launchWithExtension() {
-  const profile = await mkdtemp(path.join(tmpdir(), 'kill-the-feed-'));
-  const context = await chromium.launchPersistentContext(profile, {
-    channel: 'chromium',
-    args: [`--disable-extensions-except=${extensionFolder}`, `--load-extension=${extensionFolder}`],
-  });
+export async function launchWithStandIns() {
+  const browser = await launchWithExtension();
+  /** @type {{ url: string, type: string }[]} */
+  const webRequests = [];
 
   // Web requests only: the extension's own pages must load from the extension.
-  await context.route(/^https?:/, async (route) => {
-    const standIn = STAND_INS[new URL(route.request().url()).hostname];
+  await browser.context.route(/^https?:/, async (route) => {
+    const request = route.request();
+    webRequests.push({ url: request.url(), type: request.resourceType() });
+
+    const standIn = STAND_INS[new URL(request.url()).hostname];
     if (!standIn) return route.abort();
     return route.fulfill({
       contentType: 'text/html',
@@ -39,21 +40,5 @@ export async function launchWithExtension() {
     });
   });
 
-  return {
-    context,
-    popupUrl: `chrome-extension://${extensionId(extensionFolder)}/popup/popup.html`,
-    async close() {
-      await context.close();
-      await rm(profile, { recursive: true, force: true });
-    },
-  };
-}
-
-/**
- * The id the browser gives an unpacked extension: the first 32 hex digits of
- * the SHA-256 of its folder, written with the letters a to p.
- */
-function extensionId(folder) {
-  const digest = createHash('sha256').update(folder).digest('hex').slice(0, 32);
-  return [...digest].map((digit) => String.fromCharCode(97 + parseInt(digit, 16))).join('');
+  return { ...browser, webRequests };
 }

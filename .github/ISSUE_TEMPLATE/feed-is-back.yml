@@ -1,0 +1,28 @@
+name: A feed is back
+description: A feed that should be gone is showing again.
+title: 'Feed is back: '
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Which site and which page?
+      description: For example "the start page of Reddit". Paste the address if you can, without anything private in it.
+    validations:
+      required: true
+  - type: textarea
+    id: seen
+    attributes:
+      label: What do you see?
+      description: A screenshot helps a lot. Blur anything you don't want to share.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Which version of Kill the Feed?
+      description: It is shown on the Kill the Feed card at chrome://extensions.
+  - type: input
+    id: browser
+    attributes:
+      label: Which browser?
+      placeholder: Chrome 157 on macOS

@@ -1,8 +1,55 @@
-# Kill the Feed
+<p align="center">
+  <img src="docs/banner.png" alt="Kill the Feed. Kill the feed, not your time." width="100%" />
+</p>
 
-A browser extension that takes the endless feeds off social sites and leaves
-everything else alone. You can still open a post someone sent you, search, read
-your messages and write. You just can't fall into the scroll.
+**Kill the Feed** is a free browser extension for people who open Reddit,
+LinkedIn, X, YouTube or Instagram to do one thing and surface forty minutes
+later. It takes the endless feed away. Everything you open on purpose still
+works: the post someone sent you, search, your messages, writing.
+
+<p align="center">
+  <img src="docs/before-after.png" alt="Drawing of a page before and after: the stream of posts is replaced by the words Feed killed." width="100%" />
+</p>
+
+No account. No tracking. No ads. The code is open.
+
+## Install it in two minutes
+
+You don't need to know anything about computers for this.
+
+1. **Download** [kill-the-feed.zip](https://github.com/geraldreimertz/killthefeed/releases/latest/download/kill-the-feed.zip).
+2. **Unzip it.** On a Mac, double-click the file. On Windows, right-click it and
+   choose **Extract All**. You get a folder named `kill-the-feed`. Move it
+   somewhere it can stay, for example into your Documents. Chrome keeps using
+   this folder, so don't delete it afterwards.
+3. **Open Chrome's extensions page.** Type `chrome://extensions` into the
+   address bar and press Enter.
+4. **Switch on "Developer mode".** It is the switch in the top right corner.
+5. **Click "Load unpacked"** in the top left and choose the `kill-the-feed`
+   folder.
+6. **Reload** the Reddit, LinkedIn, X, YouTube or Instagram tabs you had open.
+
+Done. Open one of the sites and the feed is gone.
+
+To keep the button in view, click the puzzle piece in Chrome's toolbar and pin
+Kill the Feed.
+
+<details>
+<summary>Good to know</summary>
+
+- **Developer mode** is needed because the extension is not in the Chrome Web
+  Store. Chrome may remind you now and then that you are running an extension
+  in developer mode. That is expected for extensions installed this way.
+- **Updates** don't arrive by themselves. To update, download the zip again,
+  replace the old folder with the new one, and click the round arrow on the
+  Kill the Feed card at `chrome://extensions`.
+- **Other browsers.** It is built and tested for Chrome. Edge, Brave, Arc and
+  other browsers built on Chrome load extensions the same way and should work.
+- **Phones.** Desktop only.
+
+</details>
+
+## What goes, what stays
 
 | Site      | What goes                                             | What stays                                                   |
 | --------- | ----------------------------------------------------- | ------------------------------------------------------------ |
@@ -13,136 +60,72 @@ your messages and write. You just can't fall into the scroll.
 | YouTube   | Recommendations on the start page and next to a video | The video itself, subscriptions, channels, search, playlists |
 
 The rule of thumb: a feed is a stream that greets you without being asked.
-A page you navigate to on purpose is not.
+A page you go to on purpose is not.
 
-Not covered yet: YouTube Shorts, Instagram Reels and Instagram Explore. A
-single Short or reel has the same kind of address as the endless feed behind
-it, so hiding by address alone cannot tell them apart.
+Not covered yet: YouTube Shorts, Instagram Reels and Instagram Explore.
 
-## Install from source
+## One switch per site
 
-You need Node.js 20.11 or newer.
+<p>
+  <img src="docs/panel-light.png" alt="The Kill the Feed panel in light colours: a main switch and one switch per site." width="296" />
+  <img src="docs/panel-dark.png" alt="The same panel in dark colours." width="296" />
+</p>
 
-```bash
-npm install
-npm run build
-```
+Click the Kill the Feed button in Chrome's toolbar. Each site has its own
+switch, and the switch at the top pauses everything. A change takes effect at
+once, without reloading the page.
 
-Then open `chrome://extensions`, switch on **Developer mode**, choose
-**Load unpacked** and pick the `dist` folder. Reload any tabs that were already
-open.
+## Privacy
 
-The toolbar button opens a small panel with one switch per site and a main
-switch that pauses everything.
+Kill the Feed collects nothing.
 
-## How it works
+- It makes no network requests. Nothing you do leaves your browser.
+- No analytics, no tracking, no ads, no account.
+- The only thing it stores is which switches you flipped, in Chrome's own
+  storage.
 
-It is the cosmetic-filter idea from ad blockers, applied to feeds.
+When you install it, Chrome says the extension can read and change data on the
+sites listed above. Every extension that hides part of a page needs that
+permission. Kill the Feed uses it to hide feeds and for nothing else.
 
-- Each site has a **filter list** in [`filters/`](filters): which pages have a
-  feed, and which element holds it.
-- The build turns every list into a stylesheet. The browser applies it before
-  the page draws anything, so the feed never flashes up.
-- A small content script watches the address and tells the stylesheet which
-  rules are in force. That is what lets a single post work while the home page
-  stays quiet, also inside single-page apps that never reload.
-- A hidden feed is parked, not deleted: it keeps its size, clipped and
-  invisible, one screen below its container. Feeds decide when to load more by
-  looking at their own layout, and a feed that has collapsed to nothing tends to
-  load forever. A parked feed thinks nobody has scrolled yet.
+You don't have to take this on trust. Automated tests fail as soon as someone
+adds code that could send data anywhere: one
+[reads the code](test/unit/privacy.test.js), another
+[watches the finished extension in a real browser](test/e2e/extension.test.js).
+The details are in [PRIVACY.md](PRIVACY.md).
 
-The extension asks for one permission, `storage`, to remember your switches. It
-makes no network requests and collects nothing.
+## Questions
 
-## Filter lists
+**Is it really free?**
+Yes. There is no paid version and there are no ads.
 
-A filter list is a JSON file. This is the whole format:
+**A feed is back. What now?**
+Sites change their pages, and then a feed can slip through.
+[Tell us](https://github.com/geraldreimertz/killthefeed/issues/new/choose) which
+site and which page. The fix is usually one line.
 
-```json
-{
-  "id": "example",
-  "name": "Example",
-  "domains": ["example.com"],
-  "rules": [
-    {
-      "id": "feed",
-      "description": "The feed on the start page. Single posts are left alone.",
-      "paths": ["/", "/trending/**"],
-      "replace": ["main .feed"],
-      "keep": [".composer"],
-      "hide": [".new-posts-button"],
-      "notes": "Anything the next maintainer should know."
-    }
-  ]
-}
-```
+**Can you add another site?**
+Probably. [Ask for it](https://github.com/geraldreimertz/killthefeed/issues/new/choose),
+or add it yourself: every site is one small file.
+[CONTRIBUTING.md](CONTRIBUTING.md) shows how.
 
-| Key           | Meaning                                                                                               |
-| ------------- | ----------------------------------------------------------------------------------------------------- |
-| `id`          | Lowercase letters, digits and dashes. Site ids are unique overall, rule ids within their site.         |
-| `name`        | How people call the site. Shown in the panel.                                                         |
-| `domains`     | Plain domains. Subdomains are included, so `example.com` also covers `www.example.com`.               |
-| `description` | What the rule takes away and what it leaves, in plain words.                                          |
-| `paths`       | The pages the rule applies to. See below.                                                             |
-| `replace`     | Selectors of feed containers. Their content is parked and a short note takes its place.               |
-| `keep`        | Optional. Direct children of a replaced container that stay visible, such as a box for writing a post. |
-| `hide`        | Selectors of elements that simply disappear, such as a "new posts" button.                            |
-| `notes`       | Optional. Free text for maintainers.                                                                  |
+**How do I get my feed back for a moment?**
+Open the panel and flip the switch for that site, or the main switch at the
+top.
 
-A rule needs `replace`, `hide` or both.
+**How do I remove it?**
+At `chrome://extensions`, click **Remove** on the Kill the Feed card, then
+delete the folder.
 
-**Paths** are matched against the path of the address, ignoring case, query
-string and a trailing slash.
+## Made by
 
-| Pattern       | Matches                                    |
-| ------------- | ------------------------------------------ |
-| `/feed`       | `/feed` and `/feed/`, nothing below it     |
-| `/r/*/wiki`   | `*` is exactly one segment: `/r/cats/wiki` |
-| `/explore/**` | `/explore` and everything below it         |
+Gerald Reimertz
 
-List the pages that _have_ a feed. Everything else on the site is left alone
-without you having to say so.
+- Website: [dorweiler-reimertz.com](https://www.dorweiler-reimertz.com/)
+- YouTube: [youtube.com/geraldreimertz](https://www.youtube.com/geraldreimertz)
+- X: [@geraldreimertz](https://x.com/geraldreimertz)
 
-**Choosing selectors.** For `replace`, pick the element that contains the posts
-_and_ whatever sits at their end to load more. Prefer hooks the site is
-unlikely to rename: element names, ids, `data-testid`, `role`. Class names that
-look generated change with every release. If one selector in a list stops
-matching, the others keep working.
+## For developers
 
-### Adding a site
-
-1. Create `filters/<id>.json`.
-2. Register it in [`filters/index.js`](filters/index.js).
-3. Add the pages that must and must not be touched to
-   [`test/unit/filters.test.js`](test/unit/filters.test.js).
-4. Run `npm test`, then `npm run build`, and reload the extension.
-
-The build refuses lists that break the format, and it runs every generated
-stylesheet through a CSS parser.
-
-## Development
-
-| Command            | What it does                                                             |
-| ------------------ | ------------------------------------------------------------------------ |
-| `npm run build`    | Builds the extension into `dist/`.                                       |
-| `npm run dev`      | Rebuilds after every change in `src/` or `filters/`.                     |
-| `npm test`         | Unit tests.                                                              |
-| `npm run test:e2e` | Builds, then runs the extension in a real browser against stand-in pages. |
-| `npm run icons`    | Renders `assets/icon.svg` into the PNG sizes the browser needs.          |
-
-The end-to-end tests and the icon script use Playwright's Chromium. If it is
-not on your machine yet: `npx playwright install chromium`.
-
-```text
-filters/        one JSON file per site, registered in index.js
-src/core/       rules, paths, stylesheet, settings: plain logic, no browser needed
-src/platform/   the one place that talks to the browser's storage
-src/content/    the script that runs on the sites
-src/popup/      the panel behind the toolbar button
-build/          build script, manifest, icon rendering
-test/unit/      tests for src/core, the lists and the manifest
-test/e2e/       the built extension in a real browser
-```
-
-Sites change their markup. When a feed comes back, the fix is almost always one
-selector in one JSON file.
+How it works, the format of the filter lists, how to add a site and how to
+build and test: [CONTRIBUTING.md](CONTRIBUTING.md).

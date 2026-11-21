@@ -3,11 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "description": "Hides the endless feeds on social sites. Posts, search and everything you open on purpose keep working.",
+  "homepage": "https://github.com/geraldreimertz/killthefeed",
+  "repository": "github:geraldreimertz/killthefeed",
+  "bugs": "https://github.com/geraldreimertz/killthefeed/issues",
+  "author": "Gerald Reimertz (https://www.dorweiler-reimertz.com/)",
   "type": "module",
   "scripts": {
     "build": "node --disable-warning=ExperimentalWarning build/build.js",
     "dev": "node --disable-warning=ExperimentalWarning --watch-path=src --watch-path=filters build/build.js",
+    "package": "npm run build && node build/package.js",
     "icons": "node build/icons.js",
+    "images": "npm run build && node build/readme-images.js",
     "test": "node --disable-warning=ExperimentalWarning --test test/unit/*.test.js",
     "test:e2e": "npm run build && node --disable-warning=ExperimentalWarning --test test/e2e/*.test.js"
   },

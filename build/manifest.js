@@ -18,9 +18,9 @@ export const stylesheetPath = (site) => `filters/${site.id}.css`;
  * The extension manifest. Which pages the extension may touch follows from
  * the filter lists and from nothing else.
  *
- * @param {{ version: string, description: string, sites: Site[] }} options
+ * @param {{ version: string, description: string, homepage: string, sites: Site[] }} options
  */
-export function createManifest({ version, description, sites }) {
+export function createManifest({ version, description, homepage, sites }) {
   const icons = Object.fromEntries(ICON_SIZES.map((size) => [size, iconPath(size)]));
 
   return {
@@ -28,6 +28,7 @@ export function createManifest({ version, description, sites }) {
     name: PRODUCT_NAME,
     version,
     description,
+    homepage_url: homepage,
     minimum_chrome_version: '105',
     icons,
     action: {

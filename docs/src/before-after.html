@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Before and after</title>
+    <style>
+      /*
+       * Drawn in one gray on a transparent ground, so the picture sits on a
+       * light page and on a dark page alike.
+       */
+      :root {
+        --line: rgb(128 128 128 / 0.55);
+        --fill: rgb(128 128 128 / 0.26);
+        --ink: #757575;
+      }
+
+      html,
+      body {
+        margin: 0;
+      }
+
+      .picture {
+        box-sizing: border-box;
+        width: 1280px;
+        padding: 8px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 56px;
+        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        color: var(--ink);
+      }
+
+      h2 {
+        margin: 0 0 18px;
+        font-size: 26px;
+        font-weight: 700;
+      }
+
+      .window {
+        height: 440px;
+        border: 3px solid var(--line);
+        border-radius: 18px;
+        overflow: hidden;
+        display: grid;
+        grid-template-rows: 46px 1fr;
+      }
+
+      .bar {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 0 18px;
+        border-bottom: 3px solid var(--line);
+      }
+
+      .bar i {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: var(--line);
+      }
+
+      .bar b {
+        flex: 1;
+        height: 20px;
+        margin-left: 14px;
+        border-radius: 10px;
+        background: var(--fill);
+      }
+
+      .page {
+        display: grid;
+        grid-template-columns: 64px 1fr 120px;
+        gap: 22px;
+        padding: 22px 22px 0;
+      }
+
+      .rail,
+      .side,
+      .column {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .rail i {
+        width: 30px;
+        height: 30px;
+        border-radius: 9px;
+        background: var(--fill);
+      }
+
+      .side i {
+        height: 74px;
+        border-radius: 12px;
+        background: var(--fill);
+      }
+
+      .composer {
+        height: 38px;
+        border: 3px solid var(--line);
+        border-radius: 19px;
+      }
+
+      .post {
+        display: grid;
+        grid-template-columns: 34px 1fr;
+        gap: 10px 12px;
+        padding: 14px;
+        border-radius: 14px;
+        background: var(--fill);
+      }
+
+      .post i {
+        width: 34px;
+        height: 34px;
+        border-radius: 50%;
+        background: var(--line);
+      }
+
+      .post b {
+        align-self: center;
+        height: 12px;
+        width: 55%;
+        border-radius: 6px;
+        background: var(--line);
+      }
+
+      .post u {
+        grid-column: 1 / -1;
+        height: 62px;
+        border-radius: 9px;
+        background: var(--fill);
+      }
+
+      .note {
+        padding-top: 64px;
+        text-align: center;
+      }
+
+      .note strong {
+        display: block;
+        font-size: 25px;
+      }
+
+      .note span {
+        display: block;
+        margin-top: 6px;
+        font-size: 15px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="picture">
+      <section>
+        <h2>Before</h2>
+        <div class="window">
+          <div class="bar"><i></i><i></i><i></i><b></b></div>
+          <div class="page">
+            <div class="rail"><i></i><i></i><i></i><i></i></div>
+            <div class="column">
+              <div class="composer"></div>
+              <div class="post"><i></i><b></b><u></u></div>
+              <div class="post"><i></i><b></b><u></u></div>
+              <div class="post"><i></i><b></b><u></u></div>
+            </div>
+            <div class="side"><i></i><i></i></div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>After</h2>
+        <div class="window">
+          <div class="bar"><i></i><i></i><i></i><b></b></div>
+          <div class="page">
+            <div class="rail"><i></i><i></i><i></i><i></i></div>
+            <div class="column">
+              <div class="composer"></div>
+              <div class="note">
+                <strong>Feed killed.</strong>
+                <span>Hidden by Kill the Feed. Go do what you came here for.</span>
+              </div>
+            </div>
+            <div class="side"><i></i><i></i></div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </body>
+</html>

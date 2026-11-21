@@ -55,8 +55,10 @@ function bundleScripts() {
 }
 
 async function writeManifest() {
-  const { version, description } = JSON.parse(await readFile(fromRoot('package.json'), 'utf8'));
-  const manifest = createManifest({ version, description, sites });
+  const { version, description, homepage } = JSON.parse(
+    await readFile(fromRoot('package.json'), 'utf8'),
+  );
+  const manifest = createManifest({ version, description, homepage, sites });
   await write(toDist('manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`);
   return manifest;
 }

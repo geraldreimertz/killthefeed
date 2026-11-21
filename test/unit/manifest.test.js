@@ -4,11 +4,17 @@ import { test } from 'node:test';
 import { createManifest } from '../../build/manifest.js';
 import { sites } from '../../filters/index.js';
 
-const manifest = createManifest({ version: '1.2.3', description: 'A description.', sites });
+const manifest = createManifest({
+  version: '1.2.3',
+  description: 'A description.',
+  homepage: 'https://example.com/',
+  sites,
+});
 
-test('version and description come from the caller', () => {
+test('version, description and homepage come from the caller', () => {
   assert.equal(manifest.version, '1.2.3');
   assert.equal(manifest.description, 'A description.');
+  assert.equal(manifest.homepage_url, 'https://example.com/');
 });
 
 test('the extension asks for storage and nothing else', () => {

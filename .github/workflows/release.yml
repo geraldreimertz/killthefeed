@@ -1,0 +1,30 @@
+name: Release
+
+# Pushing a tag such as v0.2.0 builds the extension from that commit and
+# publishes kill-the-feed.zip, the file the README sends people to.
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: The tag has to match the version in package.json
+        run: test "v$(node -p "require('./package.json').version")" = "$GITHUB_REF_NAME"
+      - run: npm test
+      - run: npm run package
+      - name: Publish the release
+        run: gh release create "$GITHUB_REF_NAME" kill-the-feed.zip --title "Kill the Feed ${GITHUB_REF_NAME#v}" --generate-notes
+        env:
+          GH_TOKEN: ${{ github.token }}

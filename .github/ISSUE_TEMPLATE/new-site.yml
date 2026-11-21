@@ -1,0 +1,17 @@
+name: Suggest a site
+description: A site whose feed Kill the Feed should take away.
+title: 'New site: '
+body:
+  - type: input
+    id: site
+    attributes:
+      label: Which site?
+    validations:
+      required: true
+  - type: textarea
+    id: feed
+    attributes:
+      label: Where is the feed, and what should stay?
+      description: For example "the start page shows an endless list of posts. Single posts and search should keep working."
+    validations:
+      required: true
