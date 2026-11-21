@@ -1,21 +1,33 @@
 /*
- * Grayscale on purpose. Turning a screen gray is the oldest trick for making
- * it less tempting, so this one never had colour to begin with.
+ * The look of Dorweiler & Reimertz: white paper, near-black ink, Inter in its
+ * lighter weights, hairlines instead of boxes, pills and dots, no colour.
+ * The values follow dorweiler-reimertz.com and visualos.app.
  */
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../fonts/inter.woff2') format('woff2');
+  font-weight: 100 900;
+  font-display: block;
+}
+
 :root {
   color-scheme: light dark;
   --paper: #fff;
-  --ink: #000;
-  --muted: #6b6b6b;
-  --rule: #dcdcdc;
+  --ink: #0e0e0e;
+  --text: #33322f;
+  --muted: #767676;
+  --line: #e4e4e4;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #000;
-    --ink: #fff;
-    --muted: #a0a0a0;
-    --rule: #333;
+    --paper: #0e0e0e;
+    --ink: #f7f5f4;
+    --text: #dddbd7;
+    --muted: #9a9894;
+    --line: #2b2a28;
   }
 }
 
@@ -28,10 +40,18 @@
 body {
   width: 296px;
   margin: 0;
-  padding: 20px 20px 18px;
+  padding: 22px 22px 18px;
   background: var(--paper);
-  color: var(--ink);
-  font: 14px/1.4 system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  color: var(--text);
+  font: 400 14px/1.35 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+p,
+ul {
+  margin: 0;
+  padding: 0;
 }
 
 /* Masthead: the name, the main switch, and what the switch currently means. */
@@ -39,126 +59,131 @@ body {
 .masthead {
   display: grid;
   grid-template-columns: 1fr auto;
+  align-items: center;
   column-gap: 12px;
 }
 
 .wordmark {
   margin: 0;
-  font-size: 42px;
-  font-weight: 900;
-  line-height: 0.9;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
+  color: var(--ink);
+  font-size: 21px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.035em;
 }
 
-.wordmark__feed {
-  position: relative;
-  display: block;
-  width: fit-content;
+/*
+ * The full stop is the status display. A feed has no end; this puts one
+ * there. While the extension is paused, the stop is an empty ring.
+ */
+.wordmark__stop {
+  display: inline-block;
+  width: 0.19em;
+  height: 0.19em;
+  margin-left: 0.07em;
+  border: 1.5px solid var(--muted);
+  border-radius: 50%;
 }
 
-/* The strike through "Feed" is the status display: it is there while feeds are hidden. */
-.wordmark__feed::after {
-  content: '';
-  position: absolute;
-  inset: 50% -0.1em auto;
-  height: 0.085em;
-  translate: 0 -50%;
+.is-hiding .wordmark__stop {
+  border-color: var(--ink);
   background: var(--ink);
-  box-shadow: 0 0 0 0.035em var(--paper);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.2s ease-out;
-}
-
-.is-hiding .wordmark__feed::after {
-  transform: scaleX(1);
-}
-
-.masthead > .switch {
-  margin-top: 6px;
 }
 
 .summary {
   grid-column: 1 / -1;
-  margin: 14px 0 0;
+  margin-top: 6px;
   color: var(--muted);
+  font-size: 13px;
 }
 
-/* One row per site. */
+/* One row per site: the name on the left, its state and switch on the right. */
 
 .sites {
-  margin: 16px 0 0;
-  padding: 6px 0 0;
-  border-top: 1px solid var(--rule);
+  margin-top: 20px;
+  border-top: 1px solid var(--line);
   list-style: none;
 }
 
+.sites li {
+  position: relative;
+  border-bottom: 1px solid var(--line);
+}
+
+/* A row answers the pointer with a short ink line growing in from the left. */
+.sites li::after {
+  content: '';
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 1px;
+  background: var(--ink);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.6s var(--ease);
+}
+
+.sites li:has(.site:hover :enabled)::after {
+  transform: scaleX(0.28);
+}
+
 .site {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 8px 0;
+  column-gap: 12px;
+  padding: 12px 0;
   cursor: pointer;
 }
 
-.site:has(:disabled) {
+.site__name {
+  color: var(--ink);
+  font-size: 15px;
+}
+
+.site__state {
   color: var(--muted);
+  font-size: 13px;
+}
+
+.site:has(:disabled) {
   cursor: default;
 }
 
-.site__name,
-.site__state {
-  display: block;
-}
-
-.site__name {
-  font-size: 15px;
-  font-weight: 600;
-}
-
-.site__state {
+.site:has(:disabled) .site__name {
   color: var(--muted);
-  font-size: 12.5px;
 }
 
 .footnote {
-  margin: 10px 0 0;
-  padding-top: 14px;
-  border-top: 1px solid var(--rule);
+  margin-top: 16px;
   color: var(--muted);
-  font-size: 12.5px;
+  font-size: 12px;
 }
 
-/* Switch: filled means on. It has to read without colour. */
+/* Switch: a pill and a dot. Filled means on, so it reads without colour. */
 
 .switch {
   appearance: none;
   position: relative;
   flex: none;
-  width: 44px;
-  height: 26px;
+  width: 34px;
+  height: 20px;
   margin: 0;
-  border: 2px solid var(--ink);
-  border-radius: 13px;
+  border: 1.5px solid var(--ink);
+  border-radius: 999px;
   background: transparent;
   cursor: pointer;
-  transition: background-color 0.15s;
 }
 
 .switch::before {
   content: '';
   position: absolute;
-  top: 3px;
+  top: 50%;
   left: 3px;
-  width: 16px;
-  height: 16px;
+  width: 11px;
+  height: 11px;
   border-radius: 50%;
   background: var(--ink);
-  transition:
-    translate 0.15s,
-    background-color 0.15s;
+  translate: 0 -50%;
 }
 
 .switch:checked {
@@ -166,12 +191,12 @@ body {
 }
 
 .switch:checked::before {
-  translate: 18px 0;
+  translate: 14px -50%;
   background: var(--paper);
 }
 
 .switch:focus-visible {
-  outline: 2px solid var(--ink);
+  outline: 1px solid var(--ink);
   outline-offset: 3px;
 }
 
@@ -180,10 +205,23 @@ body {
   cursor: default;
 }
 
+/*
+ * Motion answers a click. The panel opens in its final state, without the
+ * switches sliding into place first.
+ */
+.is-settled .switch,
+.is-settled .switch::before,
+.is-settled .wordmark__stop {
+  transition:
+    translate 0.3s var(--ease),
+    background-color 0.3s var(--ease),
+    border-color 0.3s var(--ease);
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .wordmark__feed::after,
-  .switch,
-  .switch::before {
-    transition: none;
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
   }
 }

@@ -129,6 +129,22 @@ list that loads more as you scroll belongs in `replace`.
 The build refuses lists that break the format, and it runs every generated
 stylesheet through a CSS parser.
 
+## The look
+
+The panel has one look and keeps it: white paper, near-black ink, Inter in its
+lighter weights, hairlines instead of boxes, pills and dots, no colour. The
+full stop after the name is the mark. A feed has no end, and this puts one
+there.
+
+The values live at the top of
+[`src/popup/popup.css`](src/popup/popup.css) and, for the README pictures, in
+[`docs/src/brand.css`](docs/src/brand.css). Changes to the panel should stay
+inside them.
+
+The note on a page ("Feed killed.") is the exception. It sits on someone
+else's page, whose colours and fonts we cannot know, so it uses the system
+typeface and one gray that reads on white and on black.
+
 ## Privacy is not negotiable
 
 The extension makes no network requests and uses no browser feature besides

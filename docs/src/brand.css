@@ -1,0 +1,47 @@
+/*
+ * What the README pictures share: the typefaces and tones of
+ * Dorweiler & Reimertz. The fonts come from the installed packages.
+ */
+
+@font-face {
+  font-family: 'Inter';
+  src: url('../../node_modules/@fontsource-variable/inter/files/inter-latin-wght-normal.woff2')
+    format('woff2');
+  font-weight: 100 900;
+}
+
+@font-face {
+  font-family: 'Newsreader';
+  src: url('../../node_modules/@fontsource/newsreader/files/newsreader-latin-300-normal.woff2')
+    format('woff2');
+  font-weight: 300;
+}
+
+:root {
+  --paper: #f7f5f4;
+  --ink: #0e0e0e;
+  --muted: #767676;
+  --sans: 'Inter', system-ui, sans-serif;
+  --serif: 'Newsreader', Georgia, serif;
+}
+
+html,
+body {
+  margin: 0;
+}
+
+body {
+  font-family: var(--sans);
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* The full stop after the name. */
+.stop {
+  display: inline-block;
+  width: 0.19em;
+  height: 0.19em;
+  margin-left: 0.07em;
+  border-radius: 50%;
+  background: currentColor;
+}

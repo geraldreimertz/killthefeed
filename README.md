@@ -2,10 +2,10 @@
   <img src="docs/banner.png" alt="Kill the Feed. Kill the feed, not your time." width="100%" />
 </p>
 
-**Kill the Feed** is a free browser extension for people who open Reddit,
-LinkedIn, X, YouTube or Instagram to do one thing and surface forty minutes
-later. It takes the endless feed away. Everything you open on purpose still
-works: the post someone sent you, search, your messages, writing.
+**Kill the Feed** is a small, free helper for your browser. It is for people
+who open Reddit, LinkedIn, X, YouTube or Instagram to do one thing and surface
+forty minutes later. It takes the endless feed away. Everything you open on
+purpose still works: the post someone sent you, search, your messages, writing.
 
 <p align="center">
   <img src="docs/before-after.png" alt="Drawing of a page before and after: the stream of posts is replaced by the words Feed killed." width="100%" />

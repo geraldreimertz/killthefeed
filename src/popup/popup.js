@@ -16,7 +16,7 @@ const rows = sites.map(addRow);
 
 master.addEventListener('change', () => change(withEnabled(settings, master.checked)));
 onSettingsChanged(render);
-loadSettings().then(render);
+loadSettings().then(render).then(settle);
 
 function addRow(site) {
   const row = rowTemplate.content.cloneNode(true);
@@ -30,6 +30,11 @@ function addRow(site) {
   list.append(row);
 
   return { site, toggle, state };
+}
+
+/** From the second frame on, changes are animated. The first state just appears. */
+function settle() {
+  requestAnimationFrame(() => requestAnimationFrame(() => document.body.classList.add('is-settled')));
 }
 
 /** Shows the change at once and takes it back if it cannot be saved. */
@@ -50,7 +55,7 @@ function render(next) {
     const on = isSiteSwitchedOn(settings, site.id);
     toggle.checked = on;
     toggle.disabled = !settings.enabled;
-    state.textContent = settings.enabled && on ? 'Feed hidden' : 'Feed visible';
+    state.textContent = settings.enabled && on ? 'Hidden' : 'Visible';
   }
 }
 

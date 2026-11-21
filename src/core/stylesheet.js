@@ -13,9 +13,10 @@ const PLACEHOLDER = {
 const TYPEFACE = 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif';
 
 // The note cannot know the page's colours, and many pages give their
-// containers no text colour to inherit. This is the one gray that reads
-// equally well on white and on black: 4.6 to 1 either way.
-const INK = '#757575';
+// containers no text colour to inherit. This gray reads equally well on
+// white and on black, about 4.6 to 1 either way. It is also the gray
+// Dorweiler & Reimertz use for quiet text.
+const INK = '#767676';
 
 /**
  * Turns a site's rules into the stylesheet that enforces them.
@@ -77,7 +78,8 @@ function replacement(container, keep) {
     block(`${container}::before`, {
       ...note(PLACEHOLDER.title, 1),
       padding: '56px 24px 4px',
-      font: `700 20px/1.3 ${TYPEFACE}`,
+      font: `500 20px/1.3 ${TYPEFACE}`,
+      'letter-spacing': '-0.02em',
     }),
     block(`${container}::after`, {
       ...note(PLACEHOLDER.hint, 2),

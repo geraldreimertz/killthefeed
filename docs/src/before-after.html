@@ -3,76 +3,68 @@
   <head>
     <meta charset="utf-8" />
     <title>Before and after</title>
+    <link rel="stylesheet" href="brand.css" />
     <style>
       /*
        * Drawn in one gray on a transparent ground, so the picture sits on a
        * light page and on a dark page alike.
        */
-      :root {
-        --line: rgb(128 128 128 / 0.55);
-        --fill: rgb(128 128 128 / 0.26);
-        --ink: #757575;
-      }
-
-      html,
-      body {
-        margin: 0;
-      }
-
       .picture {
+        --line: rgb(128 128 128 / 0.5);
+        --fill: rgb(128 128 128 / 0.2);
+
         box-sizing: border-box;
         width: 1280px;
         padding: 8px;
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 56px;
-        font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-        color: var(--ink);
+        color: var(--muted);
       }
 
       h2 {
-        margin: 0 0 18px;
-        font-size: 26px;
-        font-weight: 700;
+        margin: 0 0 16px;
+        font-size: 22px;
+        font-weight: 400;
       }
 
       .window {
         height: 440px;
-        border: 3px solid var(--line);
-        border-radius: 18px;
+        border: 1.5px solid var(--line);
+        border-radius: 14px;
         overflow: hidden;
         display: grid;
-        grid-template-rows: 46px 1fr;
+        grid-template-rows: 44px 1fr;
       }
 
       .bar {
         display: flex;
         align-items: center;
-        gap: 9px;
+        gap: 8px;
         padding: 0 18px;
-        border-bottom: 3px solid var(--line);
+        border-bottom: 1.5px solid var(--line);
       }
 
       .bar i {
-        width: 12px;
-        height: 12px;
+        width: 10px;
+        height: 10px;
         border-radius: 50%;
         background: var(--line);
       }
 
       .bar b {
         flex: 1;
-        height: 20px;
+        height: 18px;
         margin-left: 14px;
-        border-radius: 10px;
+        border-radius: 9px;
         background: var(--fill);
       }
 
       .page {
         display: grid;
-        grid-template-columns: 64px 1fr 120px;
-        gap: 22px;
-        padding: 22px 22px 0;
+        grid-template-columns: 56px 1fr 120px;
+        gap: 24px;
+        padding: 24px 24px 0;
       }
 
       .rail,
@@ -84,52 +76,52 @@
       }
 
       .rail i {
-        width: 30px;
-        height: 30px;
-        border-radius: 9px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
         background: var(--fill);
       }
 
       .side i {
         height: 74px;
-        border-radius: 12px;
+        border-radius: 10px;
         background: var(--fill);
       }
 
       .composer {
-        height: 38px;
-        border: 3px solid var(--line);
-        border-radius: 19px;
+        height: 36px;
+        border: 1.5px solid var(--line);
+        border-radius: 18px;
       }
 
       .post {
         display: grid;
-        grid-template-columns: 34px 1fr;
+        grid-template-columns: 30px 1fr;
         gap: 10px 12px;
         padding: 14px;
-        border-radius: 14px;
+        border-radius: 10px;
         background: var(--fill);
       }
 
       .post i {
-        width: 34px;
-        height: 34px;
+        width: 30px;
+        height: 30px;
         border-radius: 50%;
         background: var(--line);
       }
 
       .post b {
         align-self: center;
-        height: 12px;
-        width: 55%;
-        border-radius: 6px;
+        height: 10px;
+        width: 50%;
+        border-radius: 5px;
         background: var(--line);
       }
 
       .post u {
         grid-column: 1 / -1;
-        height: 62px;
-        border-radius: 9px;
+        height: 64px;
+        border-radius: 6px;
         background: var(--fill);
       }
 
@@ -140,7 +132,9 @@
 
       .note strong {
         display: block;
-        font-size: 25px;
+        font-size: 24px;
+        font-weight: 500;
+        letter-spacing: -0.02em;
       }
 
       .note span {

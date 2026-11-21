@@ -38,8 +38,8 @@ async function photographPanel(colorScheme) {
   try {
     const page = await browser.context.newPage();
     await page.goto(browser.popupUrl);
-    await page.locator('.site__name').first().waitFor();
-    await page.screenshot({ path: path.join(docs, `panel-${colorScheme}.png`), fullPage: true });
+    // The panel is as tall as its content, so photograph the content, not the window.
+    await page.locator('.is-settled').screenshot({ path: path.join(docs, `panel-${colorScheme}.png`) });
   } finally {
     await browser.close();
   }

@@ -77,7 +77,7 @@ test('the note brings its own colour instead of trusting the page', () => {
 
   assert.equal(notes.length, 2);
   for (const note of notes) {
-    assert.match(note, /color: #757575 !important;/);
+    assert.match(note, /color: #767676 !important;/);
   }
 });
 

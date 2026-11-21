@@ -7,7 +7,7 @@
   </head>
   <body>
     <header class="masthead">
-      <h1 class="wordmark">Kill the <span class="wordmark__feed">Feed</span></h1>
+      <h1 class="wordmark">Kill the Feed<span class="wordmark__stop" aria-hidden="true"></span></h1>
       <input class="switch" id="master" type="checkbox" role="switch" aria-label="Hide feeds" />
       <p class="summary" id="summary" aria-live="polite"></p>
     </header>
@@ -19,10 +19,8 @@
     <template id="site-row">
       <li>
         <label class="site">
-          <span>
-            <span class="site__name"></span>
-            <span class="site__state"></span>
-          </span>
+          <span class="site__name"></span>
+          <span class="site__state"></span>
           <input class="switch" type="checkbox" role="switch" />
         </label>
       </li>

@@ -63,11 +63,17 @@ async function writeManifest() {
   return manifest;
 }
 
+/** Inter, the typeface of the panel. Latin letters only, which keeps it small. */
+const inter = (file) => fromRoot('node_modules/@fontsource-variable/inter', file);
+
 function copyStaticFiles() {
   return Promise.all([
     cp(fromRoot('src/popup/popup.html'), toDist(POPUP_PAGE)),
     cp(fromRoot('src/popup/popup.css'), toDist(popupFolder, 'popup.css')),
     cp(fromRoot('assets/icons'), toDist('icons'), { recursive: true }),
+    cp(inter('files/inter-latin-wght-normal.woff2'), toDist('fonts/inter.woff2')),
+    // Its licence, the SIL Open Font License, asks to travel with the font.
+    cp(inter('LICENSE'), toDist('fonts/inter-LICENSE.txt')),
     // The licence asks to travel with every copy, and the zip is a copy.
     cp(fromRoot('LICENSE'), toDist('LICENSE')),
   ]);
